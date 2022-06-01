@@ -35,21 +35,17 @@ public class CompensationServiceImpl implements CompensationService {
 
     /**
      * Creates a new Compensation obj based on an employee id
-     * @param id - employee id for an employee to have a compensation specified for
+     * @param compensation - the new Compensation obj to create
      * @return a new Compensation obj
      */
     @Override
-    public Compensation create(String id) {
-        LOG.debug("Creating Compensation [{}]", id);
-        Employee employee = employeeRepository.findByEmployeeId(id);
-        if (employee == null) {
-            throw new RuntimeException("Invalid employeeId: " + id);
+    public Compensation create(Compensation compensation) {
+        LOG.debug("Creating Compensation [{}]", compensation);
+        if (compensation == null) {
+            throw new RuntimeException("Invalid employeeId");
         }
-        Compensation comp = new Compensation(new BigDecimal("0.00"), LocalDate.of(1000, 1, 1));
-        comp.setEmployeeId(id);
-        comp.setEmployee(employee);
-        compensationRepository.insert(comp);
-        return comp;
+        compensationRepository.insert(compensation);
+        return compensation;
     }
 
     /**
